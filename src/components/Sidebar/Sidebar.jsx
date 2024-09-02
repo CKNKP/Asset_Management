@@ -32,7 +32,7 @@ const Sidebar = () => {
           <span>Add Hardware</span>
         </Link>
         <Link
-          href= "/create-request"
+          to= "/request"
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <AddBoxIcon />
