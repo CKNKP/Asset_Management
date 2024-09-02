@@ -1,26 +1,26 @@
-import { useState } from "react";
+
 import Sidebar from "../../Sidebar/Sidebar";
+import Header from "../../Header/Header";
 
-const Employee = () => {
-  const [view, setView] = useState(true);
+const Hardware = () => {
 
-  const toggleView = () => {
-    setView(!view);
-  };
+
+
 
   return (
     <>
-      {view && (
+     <Header/>
+ 
         <div className="min-h-screen flex">
           <Sidebar />
-          <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4">
-            <div className="max-w-2xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4  mt-14">
+            <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
                 <h2 className="text-2xl font-semibold">Add Hardware</h2>
               </div>
               <form className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Existing fields */}
+
                   <div>
                     <label
                       htmlFor="machineSerialName"
@@ -145,7 +145,7 @@ const Employee = () => {
                     />
                   </div>
 
-                  {/* New fields */}
+
                   <div>
                     <label
                       htmlFor="monitorModel"
@@ -193,18 +193,6 @@ const Employee = () => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
-                  {/* <div>
-                    <label htmlFor="assignToDate" className="block text-sm font-medium text-gray-700 mb-1">
-                      Assign To Date
-                    </label>
-                    <input
-                      id="assignToDate"
-                      name="assignToDate"
-                      type="date"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div> */}
                   <div>
                     <label
                       htmlFor="helpDeskCaseId"
@@ -301,21 +289,20 @@ const Employee = () => {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <button
+                <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition duration-150"
+                    className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                   >
-                    Save
+                    Submit
                   </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
-      )}
     </>
   );
 };
 
-export default Employee;
+export default Hardware;
 

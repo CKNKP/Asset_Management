@@ -13,7 +13,7 @@ import Landing from './components/Landing/Landing';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<Employee />} />
+      <Route path="/employee" element={<Employee />} />
       <Route path="/landing" element={<Landing />} />
       <Route path="/hardware" element={<Hardware />} />
     </Route>

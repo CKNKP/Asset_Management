@@ -70,7 +70,7 @@ const Employee = () => {
       {view && (
         <>
 
-        <Header title="Admin" />
+        <Header/>
         <div className="min-h-screen flex">
           <Sidebar />
           <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 mt-14">
