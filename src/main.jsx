@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Employee from './components/Admin/Employee/Employee';  
+import Hardware from './components/Admin/Hardware/Hardware';  
 import Landing from './components/Landing/Landing';
 
 const router = createBrowserRouter(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/" element={<Employee />} />
       <Route path="/landing" element={<Landing />} />
+      <Route path="/hardware" element={<Hardware />} />
     </Route>
   )
 );
