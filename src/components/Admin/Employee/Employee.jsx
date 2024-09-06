@@ -2,6 +2,9 @@ import { useState } from "react";
 import Sidebar from "../../Sidebar/Sidebar";
 import { Table } from "antd";
 import Header from "../../Header/Header";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -57,11 +60,33 @@ const Employee = () => {
     },
   ];
 
-
-
-
   const toggleView = () => {
     setView(!view);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      employeeId: e.target.employeeId.value,
+      employeeName: e.target.employeeName.value,
+      employeeEmail: e.target.employeeEmail.value,
+      employeeContact: e.target.contact.value,
+      employeeDepartment: e.target.department.value,
+      employeeGrade: e.target.grade.value,
+      employeeLocation: e.target.location.value,
+      employeeDesignation: e.target.designation.value,
+      dateOfJoining: e.target.doj.value,
+      reportingManager: e.target.reportingManager.value,
+      reportingManagerEmailId: e.target.reportingEmail.value,
+    };
+
+    try {
+      await axios.post("http://localhost:8080/api/v1/employee/save?employeeId=admin", formData);
+      toast.success("Employee added successfully!"); 
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to add employee."); 
+    }
   };
 
   return (
@@ -84,7 +109,7 @@ const Employee = () => {
                   View
                 </button>
               </div>
-              <form className="p-6 space-y-6">
+              <form className="p-6 space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label htmlFor="employeeId" className="block text-sm font-medium text-gray-700 mb-1">
@@ -233,11 +258,13 @@ const Employee = () => {
 
                 <div className="flex items-center justify-end">
                   <button
+                  onSubmit={handleSubmit}
                     type="submit"
                     className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                   >
                     Submit
                   </button>
+                  <ToastContainer/>
                 </div>
               </form>
             </div>
