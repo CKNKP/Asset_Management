@@ -216,7 +216,7 @@ const Employee = () => {
                   </div>
                   <div>
                     <label htmlFor="employeeEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                      Employee Password
+                      Employee Email
                     </label>
                     <input
                       id="employeeEmail"
