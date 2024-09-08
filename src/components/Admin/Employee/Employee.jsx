@@ -126,7 +126,7 @@ const Employee = () => {
                   </div>
                   <div>
                     <label htmlFor="employeeName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Employee Name2
+                      Employee Name
                     </label>
                     <input
                       id="employeeName"
