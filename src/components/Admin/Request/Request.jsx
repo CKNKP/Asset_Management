@@ -1,9 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import Sidebar from "../../Sidebar/Sidebar";
+import Select from 'react-select';
+import axios from 'axios';
 
 function Request() {
   const [view, setView] = useState(true);
+  const [employeeOptions, setEmployeeOptions] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [employeeDetails, setEmployeeDetails] = useState({});
+
+  useEffect(() => {
+    fetchEmployeeIds();
+  }, []);
+
+  const fetchEmployeeIds = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/employee/get/ids');
+      const options = response.data.map(employee => ({
+        value: employee.id,
+        label: `${employee.name} (${employee.id})`
+      }));
+      setEmployeeOptions(options);
+    } catch (error) {
+      console.error('Error fetching employee IDs:', error);
+    }
+  };
+
+  const fetchEmployeeDetails = async (employeeId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/employee/get?employeeId=${employeeId}`);
+      setEmployeeDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching employee details:', error);
+    }
+  };
+
+  const handleEmployeeChange = (selectedOption) => {
+    setSelectedEmployee(selectedOption);
+    fetchEmployeeDetails(selectedOption.value);
+  };
 
   const toggleView = () => {
     setView(!view);
@@ -89,13 +125,12 @@ function Request() {
                       >
                         Employee ID
                       </label>
-                      <input
+                      <Select
                         id="employeeId"
-                        name="employeeId"
-                        type="text"
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="LD000143"
+                        options={employeeOptions}
+                        value={selectedEmployee}
+                        onChange={handleEmployeeChange}
+                        className="w-full"
                       />
                     </div>
                   </div>
@@ -118,9 +153,9 @@ function Request() {
                         id="employeeName"
                         name="employeeName"
                         type="text"
-                        required
+                        value={employeeDetails.employeeName || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="John Doe"
                       />
                     </div>
                     <div>
@@ -134,9 +169,9 @@ function Request() {
                         id="department"
                         name="department"
                         type="text"
-                        required
+                        value={employeeDetails.employeeDepartment || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Human Resources"
                       />
                     </div>
                     <div>
@@ -150,9 +185,9 @@ function Request() {
                         id="designation"
                         name="designation"
                         type="text"
-                        required
+                        value={employeeDetails.employeeDesignation || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Manager"
                       />
                     </div>
                     <div>
@@ -166,9 +201,9 @@ function Request() {
                         id="grade"
                         name="grade"
                         type="text"
-                        required
+                        value={employeeDetails.employeeGrade || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="A"
                       />
                     </div>
                     <div>
@@ -182,9 +217,9 @@ function Request() {
                         id="location"
                         name="location"
                         type="text"
-                        required
+                        value={employeeDetails.employeeLocation || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="India"
                       />
                     </div>
                     <div>
@@ -197,8 +232,9 @@ function Request() {
                       <input
                         id="dateOfJoining"
                         name="dateOfJoining"
-                        type="date"
-                        required
+                        type="text"
+                        value={employeeDetails.dateOfJoining || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       />
                     </div>
