@@ -58,11 +58,6 @@ const Employee = () => {
       key: "dateOfJoining",
     },
     {
-      title: "Contact",
-      dataIndex: "employeeContact",
-      key: "employeeContact",
-    },
-    {
       title: "Employee Email",
       dataIndex: "employeeEmail",
       key: "employeeEmail",
