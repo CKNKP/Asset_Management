@@ -20,19 +20,24 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Login />} />
-      <Route path="/admin/request" element={<Request />} />
-      <Route path="/superadmin/employee" element={<Employee />} />
       <Route path="/landing" element={<Landing />} />
-      <Route path="/admin/hardware" element={<Hardware />} />
-      <Route path="/admin/software" element={<Software />} />
-      <Route path="/superadmin/hardware" element={<SuperHardware />} />
-      <Route path="/superadmin/software" element={<SuperSoftware />} />
-      <Route path="/superadmin/request" element={<SuperRequest />} />
+      
+
+      <Route path="/admin">
+        <Route path="hardware" element={<Hardware />} />
+        <Route path="software" element={<Software />} />
+        <Route path="request" element={<Request />} />
+      </Route>
+
+      <Route path="/superadmin">
+        <Route path="employee" element={<Employee />} />
+        <Route path="hardware" element={<SuperHardware />} />
+        <Route path="software" element={<SuperSoftware />} />
+        <Route path="request" element={<SuperRequest />} />
+      </Route>
     </Route>
   )
 );
-
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
