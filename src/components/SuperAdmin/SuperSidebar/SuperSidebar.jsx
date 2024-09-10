@@ -11,28 +11,28 @@ const SuperSidebar = () => {
     <div className="min-h-screen bg-gray-800 text-white w-64 flex flex-col">
       <nav className="flex-1 px-4 py-6 space-y-4 mt-16">
         <Link
-          to = "/admin/employee"
+          to = "/superadmin/employee"
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <PersonAddIcon />
           <span>Add Employee</span>
         </Link>
         <Link
-          to = "/admin/software"
+          to = "/superadmin/software"
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <ComputerIcon />
           <span>Add Software</span>
         </Link>
         <Link
-          to = "/admin/hardware"
+          to = "/superadmin/hardware"
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <BuildIcon />
           <span>Add Hardware</span>
         </Link>
         <Link
-          to= "/admin/request"
+          to= "/superadmin/request"
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <AddBoxIcon />

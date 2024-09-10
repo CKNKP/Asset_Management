@@ -1,55 +1,66 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { Table } from "antd";
 import Header from "../../Header/Header";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import SuperSidebar from "../SuperSidebar/SuperSidebar";
-
-
-
-
-
-
 
 const Employee = () => {
   const [view, setView] = useState(true);
+  const [employees, setEmployees] = useState([]);
 
   const employeeId = sessionStorage.getItem('employeeId');
-  console.log(employeeId)
   
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/employee/all');
+      setEmployees(response.data);
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+      toast.error("Failed to fetch employees.");
+    }
+  };
+
   const columns = [
     {
+      title: "Employee ID",
+      dataIndex: "employeeId",
+      key: "employeeId",
+    },
+    {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "employeeName",
+      key: "employeeName",
     },
     {
       title: "Designation",
-      dataIndex: "designation",
-      key: "designation",
+      dataIndex: "employeeDesignation",
+      key: "employeeDesignation",
     },
     {
       title: "Grade",
-      dataIndex: "grade",
-      key: "grade",
+      dataIndex: "employeeGrade",
+      key: "employeeGrade",
     },
     {
       title: "Location",
-      dataIndex: "location",
-      key: "location",
+      dataIndex: "employeeLocation",
+      key: "employeeLocation",
     },
     {
       title: "DOJ",
-      dataIndex: "doj",
-      key: "doj",
+      dataIndex: "dateOfJoining",
+      key: "dateOfJoining",
     },
     {
       title: "Contact",
-      dataIndex: "contact",
-      key: "contact",
+      dataIndex: "employeeContact",
+      key: "employeeContact",
     },
     {
       title: "Employee Email",
@@ -63,8 +74,8 @@ const Employee = () => {
     },
     {
       title: "Reporting Manager Email",
-      dataIndex: "reportingManagerEmail",
-      key: "reportingManagerEmail",
+      dataIndex: "reportingManagerEmailId",
+      key: "reportingManagerEmailId",
     },
   ];
 
@@ -101,10 +112,8 @@ const Employee = () => {
 
   return (
     <>
-
       {view && (
         <>
-
         <Header/>
         <div className="min-h-screen flex">
           <SuperSidebar/>
@@ -290,7 +299,6 @@ const Employee = () => {
           <SuperSidebar/>
           <div className="flex-1 bg-gray-100 flex flex-col p-4 mt-14">
             <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
-
               <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
                 <h2 className="text-2xl font-semibold">Employee Information</h2>
                 <button
@@ -300,12 +308,16 @@ const Employee = () => {
                   Add
                 </button>
               </div>
-
               <div className="overflow-x-auto">
-              <Table columns={columns} style={{whiteSpace: 'nowrap'}}/>
+                <Table 
+                  columns={columns} 
+                  dataSource={employees} 
+                  rowKey="employeeId"
+                  style={{whiteSpace: 'nowrap'}}
+                />
+              </div>
             </div>
           </div>
-        </div>
         </div>
         </>
       )}
