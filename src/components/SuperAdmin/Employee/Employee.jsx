@@ -1,10 +1,12 @@
 import { useState } from "react";
-import Sidebar from "../../Sidebar/Sidebar";
+
 import { Table } from "antd";
 import Header from "../../Header/Header";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import SuperSidebar from "../SuperSidebar/SuperSidebar";
 
 
 
@@ -105,7 +107,7 @@ const Employee = () => {
 
         <Header/>
         <div className="min-h-screen flex">
-          <Sidebar />
+          <SuperSidebar/>
           <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 md:mt-14 sm:mt-14">
             <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
@@ -285,7 +287,7 @@ const Employee = () => {
         <>
         <Header/>
         <div className="min-h-screen flex">
-          <Sidebar />
+          <SuperSidebar/>
           <div className="flex-1 bg-gray-100 flex flex-col p-4 mt-14">
             <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
 

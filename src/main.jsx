@@ -6,7 +6,10 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Employee from './components/Admin/Employee/Employee';  
+import Employee from './components/SuperAdmin/Employee/Employee';
+import SuperHardware from './components/SuperAdmin/SuperHardware/SuperHardware';
+import SuperSoftware from './components/SuperAdmin/SuperSoftware/SuperSoftware';
+import SuperRequest from './components/SuperAdmin/SuperRequest/SuperRequest';
 import Hardware from './components/Admin/Hardware/Hardware';  
 import Software from './components/Admin/Software/Software';  
 import Landing from './components/Landing/Landing';
@@ -18,10 +21,13 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/" element={<Login />} />
       <Route path="/admin/request" element={<Request />} />
-      <Route path="/admin/employee" element={<Employee />} />
+      <Route path="/superadmin/employee" element={<Employee />} />
       <Route path="/landing" element={<Landing />} />
       <Route path="/admin/hardware" element={<Hardware />} />
       <Route path="/admin/software" element={<Software />} />
+      <Route path="/superadmin/hardware" element={<SuperHardware />} />
+      <Route path="/superadmin/software" element={<SuperSoftware />} />
+      <Route path="/superadmin/request" element={<SuperRequest />} />
     </Route>
   )
 );
