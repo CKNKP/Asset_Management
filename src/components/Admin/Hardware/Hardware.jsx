@@ -1,6 +1,6 @@
 import Sidebar from "../../Sidebar/Sidebar";
 import Header from "../../Header/Header";
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +25,10 @@ const Hardware = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [employeeId, setEmployeeId] = useState("");
+
+
+  const employee = sessionStorage.getItem('employeeId');
+  console.log(employee)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -33,7 +36,7 @@ const Hardware = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault(); 
     setLoading(true);
 
     const formattedFormData = {
@@ -49,7 +52,7 @@ const Hardware = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/hardware/save?employeeId=${employeeId}`,
+        `http://localhost:8080/api/v1/hardware/save?employeeId=${employee}`,
         formattedFormData,
         {
           headers: {
@@ -60,7 +63,6 @@ const Hardware = () => {
 
       if (response.status === 200) {
         toast.success("Hardware added successfully!");
-        // Reset form fields
         setFormData({
           machineSerialNo: "",
           processorType: "",
@@ -78,19 +80,17 @@ const Hardware = () => {
           warrantyExpirationDate: "",
           assetCategory: "",
         });
-        setEmployeeId("");
       } else {
         toast.error("Error adding hardware. Please try again.");
       }
     } catch (error) {
+      console.log(error)
       toast.error("Error adding hardware. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-  const handleEmployeeIdChange = (event) => {
-    setEmployeeId(event.target.value);
-  };
+
 
   return (
     <>
@@ -103,27 +103,10 @@ const Hardware = () => {
             <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
               <h2 className="text-2xl font-semibold">Add Hardware</h2>
             </div>
-            {/* Attach handleSubmit to the form's onSubmit */}
+  
             <form className="p-6 space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="employeeId"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Employee ID
-                  </label>
-                  <input
-                    id="employeeId"
-                    name="employeeId"
-                    type="text"
-                    value={employeeId}
-                    onChange={handleEmployeeIdChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter Software Name"
-                  />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
                 <div>
                   <label
                     htmlFor="machineSerialNo"

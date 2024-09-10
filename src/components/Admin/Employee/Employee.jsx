@@ -9,9 +9,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+
+
+
 const Employee = () => {
   const [view, setView] = useState(true);
 
+  const employeeId = sessionStorage.getItem('employeeId');
+  console.log(employeeId)
+  
   const columns = [
     {
       title: "Name",
@@ -81,11 +87,13 @@ const Employee = () => {
     };
 
     try {
-      await axios.post("http://localhost:8080/api/v1/employee/save?employeeId=admin", formData);
-      toast.success("Employee added successfully!"); 
+      await axios.post(`http://localhost:8080/api/v1/employee/save?employeeId=${employeeId}`, formData);
+      toast.success("Employee added successfully!");
+
+      e.target.reset();
     } catch (error) {
-      console.log(error)
-      toast.error("Failed to add employee."); 
+      console.log(error);
+      toast.error("Failed to add employee.");
     }
   };
 

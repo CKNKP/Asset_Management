@@ -1,11 +1,52 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [employeeId, setEmployeeId] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/auths/logIn', {
+        employeeId,
+        employeePassword: password,
+      });
+
+      const { message, role, employeeId: loggedInEmployeeId } = response.data;
+
+  
+      sessionStorage.setItem('role', role);
+      sessionStorage.setItem('employeeId', loggedInEmployeeId);
+
+ 
+      toast.success(message);
+
+      switch (role) {
+        case 'admin':
+          navigate('/admin/hardware');
+          break;
+        case 'user':
+          navigate('/user');
+          break;
+        case 'superadmin':
+          navigate('/superadmin/employee');
+          break;
+        default:
+          toast.error('Unknown role');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'An error occurred during login');
+    }
   };
 
   return (
@@ -21,7 +62,7 @@ const Login = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-gray-800 py-8 px-6 shadow-md rounded-lg">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="employeeId" className="block text-sm font-medium text-white">
                 Employee ID
@@ -33,6 +74,8 @@ const Login = () => {
                   type="text"
                   autoComplete="employeeId"
                   required
+                  value={employeeId}
+                  onChange={(e) => setEmployeeId(e.target.value)}
                   className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -49,6 +92,8 @@ const Login = () => {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
                 />
                 <button
