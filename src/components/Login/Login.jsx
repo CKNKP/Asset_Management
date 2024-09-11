@@ -22,18 +22,18 @@ const Login = () => {
         employeePassword: password,
       });
 
-      const { message, role, employeeId: loggedInEmployeeId } = response.data;
+      const { message, role, employeeName, employeeId: loggedInEmployeeId } = response.data;
 
   
       sessionStorage.setItem('role', role);
       sessionStorage.setItem('employeeId', loggedInEmployeeId);
-
+      sessionStorage.setItem('employeeName', employeeName);
  
       toast.success(message);
 
       switch (role) {
         case 'admin':
-          navigate('/admin/hardware');
+          navigate('/admin/software');
           break;
         case 'user':
           navigate('/user');
