@@ -9,9 +9,13 @@ function SuperRequest() {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [employeeDetails, setEmployeeDetails] = useState({});
+  const [machineOptions, setMachineOptions] = useState([]);
+  const [selectedMachine, setSelectedMachine] = useState(null);
+  const [hardwareDetails, setHardwareDetails] = useState({});
 
   useEffect(() => {
     fetchEmployeeIds();
+    fetchMachineSerialNumbers();
   }, []);
 
   const fetchEmployeeIds = async () => {
@@ -36,9 +40,36 @@ function SuperRequest() {
     }
   };
 
+  const fetchMachineSerialNumbers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/hardware/all');
+      const options = response.data.map(hardware => ({
+        value: hardware.machineSerialNo,
+        label: hardware.machineSerialNo
+      }));
+      setMachineOptions(options);
+    } catch (error) {
+      console.error('Error fetching machine serial numbers:', error);
+    }
+  };
+
+  const fetchHardwareDetails = async (machineSerialNo) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/hardware/get/id?id=${machineSerialNo}`);
+      setHardwareDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching hardware details:', error);
+    }
+  };
+
   const handleEmployeeChange = (selectedOption) => {
     setSelectedEmployee(selectedOption);
     fetchEmployeeDetails(selectedOption.value);
+  };
+
+  const handleMachineChange = (selectedOption) => {
+    setSelectedMachine(selectedOption);
+    fetchHardwareDetails(selectedOption.value);
   };
 
   const toggleView = () => {
@@ -251,34 +282,34 @@ function SuperRequest() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                       <label htmlFor="machineSerialNumber" className="block text-sm font-medium text-gray-700">Machine Serial Number</label>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" required id="machineSerialNumber" name="machineSerialNumber">
-                        <option value="">Select Machine Serial Number</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="imacRequirement" className="block text-sm font-medium text-gray-700">IMAC Requirement</label>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" required id="imacRequirement" name="imacRequirement">
-                        <option value="">Select IMAC Requirement</option>
-
-                      </select>
+                      <Select
+                        id="machineSerialNumber"
+                        options={machineOptions}
+                        value={selectedMachine}
+                        onChange={handleMachineChange}
+                        className="w-full"
+                      />
                     </div>
                     <div>
                       <label htmlFor="processorType" className="block text-sm font-medium text-gray-700">Processor Type</label>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" required id="processorType" name="processorType">
-                        <option value="">Select Processor Type</option>
-                      </select>
-
+                      <input
+                        id="processorType"
+                        name="processorType"
+                        type="text"
+                        value={hardwareDetails.processorType || ''}
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      />
                     </div>
                     <div>
-                      <label htmlFor="hardwareRequirement" className="block text-sm font-medium text-gray-700">Hardware Requirement</label>
+                      <label htmlFor="hardwareRequirement" className="block text-sm font-medium text-gray-700">Hardware Type</label>
                       <input
                         id="hardwareRequirement"
                         name="hardwareRequirement"
                         type="text"
-                        required
+                        value={hardwareDetails.hardWareType || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Laptop"
                       />
                     </div>
                     <div>
@@ -287,9 +318,9 @@ function SuperRequest() {
                         id="pcModel"
                         name="pcModel"
                         type="text"
-                        required
+                        value={hardwareDetails.pcModel || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="HP"
                       />
                     </div>
                     <div>
@@ -298,31 +329,21 @@ function SuperRequest() {
                         id="hdd"
                         name="hdd"
                         type="text"
-                        required
+                        value={hardwareDetails.harddisk || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="500 GB"
                       />
-
                     </div>
                     <div>
-                      <label
-                        htmlFor="RAM"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        RAM
-                      </label>
-                      <select
+                      <label htmlFor="RAM" className="block text-sm font-medium text-gray-700 mb-1">RAM</label>
+                      <input
                         id="RAM"
                         name="RAM"
-                        required
+                        type="text"
+                        value={hardwareDetails.ram || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        <option value="">Select RAM</option>
-                        <option value="4GB">4GB</option>
-                        <option value="8GB">8GB</option>
-                        <option value="12GB">12GB</option>
-                        <option value="16GB">16GB</option>
-                      </select>
+                      />
                     </div>
                     <div>
                       <label htmlFor="helpDeskCaseId" className="block text-sm font-medium text-gray-700">HelpDesk Case ID</label>
@@ -330,9 +351,9 @@ function SuperRequest() {
                         id="helpDeskCaseId"
                         name="helpDeskCaseId"
                         type="text"
-                        required
+                        value={hardwareDetails.helpDeskCaseId || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="LD000143"
                       />
                     </div>
                     <div>
@@ -341,20 +362,19 @@ function SuperRequest() {
                         id="makeType"
                         name="makeType"
                         type="text"
-                        required
+                        value={hardwareDetails.makeType || ''}
+                        readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Laptop"
                       />
                     </div>
                     <div>
                       <label htmlFor="assignTo" className="block text-sm font-medium text-gray-700">Assign To</label>
-                      <input
+                      <Select
                         id="assignTo"
-                        name="assignTo"
-                        type="text"
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="John Doe"
+                        options={employeeOptions}
+                        value={selectedEmployee}
+                        onChange={handleEmployeeChange}
+                        className="w-full"
                       />
                     </div>
                   </div>
