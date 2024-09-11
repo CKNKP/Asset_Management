@@ -1,10 +1,10 @@
-
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import ComputerIcon from "@mui/icons-material/Computer";
 import BuildIcon from "@mui/icons-material/Build";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Link } from "react-router-dom";
-
 
 const SuperSidebar = () => {
   return (
@@ -37,6 +37,20 @@ const SuperSidebar = () => {
         >
           <AddBoxIcon />
           <span>Create Request</span>
+        </Link>
+        <Link
+          to="/superadmin/role"
+          className="px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
+        >
+          <AddCircleOutlineIcon />
+          <span>Add Role</span>
+        </Link>
+        <Link
+          to="/superadmin/assign-role"
+          className="px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
+        >
+          <AssignmentIndIcon />
+          <span>Assign Role</span>
         </Link>
       </nav>
     </div>

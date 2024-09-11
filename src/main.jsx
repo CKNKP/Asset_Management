@@ -15,6 +15,7 @@ import Software from './components/Admin/Software/Software';
 
 import Login from './components/Login/Login';
 import Request from './components/Admin/Request/Request';
+import Role from './components/SuperAdmin/Role/Role';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
         <Route path="hardware" element={<SuperHardware />} />
         <Route path="software" element={<SuperSoftware />} />
         <Route path="request" element={<SuperRequest />} />
+        <Route path="role" element={<Role />} />
       </Route>
     </Route>
   )

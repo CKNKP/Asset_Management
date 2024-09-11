@@ -112,7 +112,7 @@ const Employee = () => {
         <Header/>
         <div className="min-h-screen flex">
           <SuperSidebar/>
-          <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 md:mt-14 sm:mt-14">
+          <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 mt-14">
             <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
                 <h2 className="text-2xl font-semibold">Add Employee</h2>
