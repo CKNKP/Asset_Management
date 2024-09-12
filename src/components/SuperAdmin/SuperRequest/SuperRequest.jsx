@@ -167,7 +167,7 @@ function SuperRequest() {
             </div>
             <form onSubmit={handleSubmit}>
               <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   <div>
                     <label htmlFor="deviceName" className="block text-sm font-medium text-gray-700">Device name</label>
                     <input
@@ -331,7 +331,7 @@ function SuperRequest() {
                 </h2>
               </div>
               <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div>
                     <label htmlFor="machineSerialNumber" className="block text-sm font-medium text-gray-700">Machine Serial Number</label>
                     <Select
