@@ -23,7 +23,6 @@ function SuperRequest() {
     assignTo: "",
     machineSerialNo: "",
     softwareRQ: [],
-    licenseKey: ""
   });
   const [loading, setLoading] = useState(false);
 
@@ -128,7 +127,6 @@ function SuperRequest() {
         assignTo: "",
         machineSerialNo: "",
         softwareRQ: [],
-        licenseKey: ""
       });
       setSelectedEmployee(null);
       setSelectedMachine(null);
@@ -418,6 +416,19 @@ function SuperRequest() {
                       value={hardwareDetails.makeType || ''}
                       readOnly
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label>IMAC Requirement</label>
+                    <input
+                      id="imacRequirement"
+                      name="imacRequirement"
+                      type="text"
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Yes/No"
+                      value={formData.imacRequirement}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div>
