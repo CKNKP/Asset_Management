@@ -36,7 +36,7 @@ const Login = () => {
           navigate('/admin/hardware');
           break;
         case 'user':
-          navigate('/user');
+          navigate('/user/request');
           break;
         case 'superadmin':
           navigate('/superadmin/employee');

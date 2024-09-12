@@ -12,6 +12,7 @@ import SuperSoftware from './components/SuperAdmin/SuperSoftware/SuperSoftware';
 import SuperRequest from './components/SuperAdmin/SuperRequest/SuperRequest';
 import Hardware from './components/Admin/Hardware/Hardware';  
 import Software from './components/Admin/Software/Software';  
+import UserRequest from './components/User/UserRequest/UserRequest';
 
 import Login from './components/Login/Login';
 import Request from './components/Admin/Request/Request';
@@ -34,6 +35,10 @@ const router = createBrowserRouter(
         <Route path="hardware" element={<SuperHardware />} />
         <Route path="software" element={<SuperSoftware />} />
         <Route path="request" element={<SuperRequest />} />
+      </Route>
+
+      <Route path="/user">
+        <Route path="request" element={<UserRequest />} />
       </Route>
     </Route>
   )
