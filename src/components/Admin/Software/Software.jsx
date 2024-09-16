@@ -1,11 +1,83 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../../Header/Header";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Table } from "antd";
+
 
 const Software = () => {
+  const [view, setView] = useState(true);
+  const [software, setSoftware] = useState([]);
+
+  const toggleView = () => {
+    setView(!view);
+
+    if (!view) {
+      fetchSoftware();
+    }
+  };
+
+  useEffect(() => {
+    fetchSoftware();
+  }, []);
+
+  const fetchSoftware = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/v1/software/list"
+      );
+      setSoftware(response.data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      toast.error("Failed to fetch employees.");
+    }
+  };
+
+  const columns = [
+    {
+      title: "Software Name",
+      dataIndex: "softwareName",
+      key: "softwareName",
+    },
+    {
+      title: "License Key",
+      dataIndex: "liscenseKey",
+      key: "liscenseKey",
+    },
+    {
+      title: "Software Expiry Date",
+      dataIndex: "softwareExpiryDate",
+      key: "softwareExpiryDate",
+    },
+    {
+      title: "Software Installation Date",
+      dataIndex: "softwareInstallationDate",
+      key: "softwareInstallationDate",
+    },
+    {
+      title: "Version",
+      dataIndex: "version",
+      key: "version",
+    },
+    {
+      title: "Vendor Name",
+      dataIndex: "vendorName",
+      key: "vendorName",
+    },
+    {
+      title: "License Type",
+      dataIndex: "liscenseType",
+      key: "liscenseType",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+  ];
+
   const [softwareData, setSoftwareData] = useState({
     softwareName: "",
     liscenseKey: "",
@@ -82,6 +154,8 @@ const Software = () => {
 
   return (
     <>
+      { view && (
+        <>
       <Header />
       <div className="min-h-screen flex">
         <Sidebar />
@@ -89,6 +163,12 @@ const Software = () => {
           <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
               <h2 className="text-2xl font-semibold">Add Software</h2>
+              <button
+                    onClick={toggleView}
+                    className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-150 ease-in-out"
+                  >
+                    View
+                  </button>
             </div>
             <form className="p-6 space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -276,6 +356,39 @@ const Software = () => {
         </div>
       </div>
       <ToastContainer />
+    </>
+    )}
+    {!view && (
+        <>
+          <Header />
+          <div className="min-h-screen flex">
+            <Sidebar />
+            <div className="flex-1 bg-gray-100 flex flex-col p-4 mt-14">
+              <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+                <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
+                  <h2 className="text-2xl font-semibold">
+                    Software Information
+                  </h2>
+                  <button
+                    onClick={toggleView}
+                    className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-150 ease-in-out"
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table
+                    columns={columns}
+                    dataSource={software}
+                    rowKey="employeeId"
+                    style={{ whiteSpace: "nowrap" }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
