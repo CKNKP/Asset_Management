@@ -17,6 +17,7 @@ import Login from './components/Login/Login';
 import Request from './components/Admin/Request/Request';
 import Role from './components/SuperAdmin/Role/Role';
 import AssignRole from './components/SuperAdmin/AssignRole/AssignRole';
+import SuperDashboard from './components/SuperAdmin/SuperDashboard/SuperDashboard';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path="request" element={<SuperRequest />} />
         <Route path="role" element={<Role />} />
         <Route path="assign-role" element={<AssignRole />} />
+        <Route path="dashboard" element={<SuperDashboard />} />
       </Route>
 
       <Route path="/user">
