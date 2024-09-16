@@ -1,4 +1,4 @@
-import Sidebar from "../Sidebar/Sidebar";
+import SuperSidebar from "../SuperSidebar/SuperSidebar";
 import Header from "../../Header/Header";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -175,7 +175,7 @@ const Hardware = () => {
           <Header />
 
           <div className="min-h-screen flex">
-            <Sidebar />
+            <SuperSidebar />
             <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 mt-14">
               <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
@@ -520,7 +520,7 @@ const Hardware = () => {
         <>
           <Header />
           <div className="min-h-screen flex">
-            <Sidebar />
+            <SuperSidebar />
             <div className="flex-1 bg-gray-100 flex flex-col p-4 mt-14">
               <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
