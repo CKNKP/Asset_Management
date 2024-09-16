@@ -53,11 +53,11 @@ const AssignRole = () => {
       return;
     }
 
-    const userId = sessionStorage.getItem('employeeId');
+    const loginId = sessionStorage.getItem('employeeId');
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/employee/assign/${selectedRole.value}/${selectedEmployee.value}?userId=${userId}`
+        `http://localhost:8080/api/v1/employee/assign/${selectedRole.value}/${selectedEmployee.value}?loginId=${loginId}`
       );
 
       if (response.data && response.data.message) {

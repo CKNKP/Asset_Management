@@ -98,7 +98,9 @@ const Hardware = () => {
     warrantyExpirationStatus: "",
     warrantyExpirationDate: "",
     assetCategory: "",
+
     assetValue:"",
+
   });
 
   const [loading, setLoading] = useState(false);
@@ -437,6 +439,7 @@ const Hardware = () => {
                       />
                     </div>
 
+
                     <div>
                       <label
                         htmlFor="warrantyExpirationDate"
@@ -505,6 +508,7 @@ const Hardware = () => {
                     </button>
                   </div>
                 </form>
+
               </div>
             </div>
           </div>

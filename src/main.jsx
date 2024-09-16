@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Employee from './components/SuperAdmin/Employee/Employee';
+import Dashboard from './components/Admin/Dashboard/Dashboard';
 import SuperHardware from './components/SuperAdmin/SuperHardware/SuperHardware';
 import SuperSoftware from './components/SuperAdmin/SuperSoftware/SuperSoftware';
 import SuperRequest from './components/SuperAdmin/SuperRequest/SuperRequest';
@@ -17,6 +18,7 @@ import Login from './components/Login/Login';
 import Request from './components/Admin/Request/Request';
 import Role from './components/SuperAdmin/Role/Role';
 import AssignRole from './components/SuperAdmin/AssignRole/AssignRole';
+import SuperDashboard from './components/SuperAdmin/SuperDashboard/SuperDashboard';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +28,7 @@ const router = createBrowserRouter(
       
 
       <Route path="/admin">
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="hardware" element={<Hardware />} />
         <Route path="software" element={<Software />} />
         <Route path="request" element={<Request />} />
@@ -38,6 +41,7 @@ const router = createBrowserRouter(
         <Route path="request" element={<SuperRequest />} />
         <Route path="role" element={<Role />} />
         <Route path="assign-role" element={<AssignRole />} />
+        <Route path="dashboard" element={<SuperDashboard />} />
       </Route>
 
       <Route path="/user">
