@@ -22,6 +22,7 @@ const SuperHardware = () => {
     warrantyExpirationStatus: "",
     warrantyExpirationDate: "",
     assetCategory: "",
+    assetValue: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -79,6 +80,7 @@ const SuperHardware = () => {
           warrantyExpirationStatus: "",
           warrantyExpirationDate: "",
           assetCategory: "",
+          assetValue: "",
         });
       } else {
         toast.error("Error adding hardware. Please try again.");
@@ -394,6 +396,26 @@ const SuperHardware = () => {
                     <option value="Software">Software</option>
                   </select>
                 </div>
+
+                <div>
+                  <label
+                    htmlFor="assetValue"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Asset Value
+                  </label>
+                  <input
+                    id="assetValue"
+                    name="assetValue"
+                    type="text"
+                    required
+                    onChange={handleChange}
+                    value={formData.assetValue}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter Asset Value"
+                  />
+                </div>
+
               </div>
 
               <div className="flex justify-end">

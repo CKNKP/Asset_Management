@@ -464,18 +464,6 @@ function SuperRequest() {
                       onChange={handleSoftwareChange}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="licenseKey" className="block text-sm font-medium text-gray-700">License Key</label>
-                    <input 
-                      id="licenseKey"
-                      name="licenseKey"
-                      type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="XXXX-XXXX-XXXX-XXXX"
-                      value={formData.licenseKey}
-                      onChange={handleInputChange}
-                    />
-                  </div>
                 </div>
               </div>
               <div className="flex items-center justify-end p-4">
