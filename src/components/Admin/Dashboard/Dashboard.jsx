@@ -3,10 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "../../Header/Header";
-import SuperSidebar from "../SuperSidebar/SuperSidebar";
+import Sidebar from "../Sidebar/Sidebar";
 import { People, Inventory, AssignmentTurnedIn, AssignmentLate } from "@mui/icons-material";
 
-const SuperDashboard = () => {
+const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({
     unAllocatedAsset: 0,
     totalEmployee: 0,
@@ -50,7 +50,7 @@ const SuperDashboard = () => {
     <>
       <Header />
       <div className="min-h-screen flex bg-gray-100">
-        <SuperSidebar />
+        <Sidebar />
         <div className="flex-1 p-8 mt-14">
           <div className="w-full rounded-xl overflow-hidden shadow-2xl bg-white">
             <div className="p-6 bg-gray-800">
@@ -77,4 +77,4 @@ const SuperDashboard = () => {
   );
 };
 
-export default SuperDashboard;
+export default Dashboard;
