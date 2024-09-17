@@ -7,27 +7,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AssignRole = () => {
-  const [roles, setRoles] = useState([]);
+  const [roles] = useState([{ value: 'admin', label: 'Admin' }]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchRoles();
     fetchEmployeeIds();
   }, []);
-
-  const fetchRoles = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/v1/role/get/all/role');
-      const roleOptions = response.data.map(role => ({ value: role, label: role }));
-      setRoles(roleOptions);
-    } catch (error) {
-      console.error('Error fetching roles:', error);
-      toast.error('Error fetching roles. Please try again.');
-    }
-  };
 
   const fetchEmployeeIds = async () => {
     try {
