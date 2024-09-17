@@ -150,7 +150,7 @@ function SuperRequest() {
         <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 mt-14">
           <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
-              <h2 className="text-2xl font-semibold">Create Request</h2>
+              <h2 className="text-2xl font-semibold">Asset Allocation</h2>
               <button
                 onClick={toggleView}
                 className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition duration-150 ease-in-out"
