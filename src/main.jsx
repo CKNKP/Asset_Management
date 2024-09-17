@@ -19,21 +19,22 @@ import Request from './components/Admin/Request/Request';
 import Role from './components/SuperAdmin/Role/Role';
 import AssignRole from './components/SuperAdmin/AssignRole/AssignRole';
 import SuperDashboard from './components/SuperAdmin/SuperDashboard/SuperDashboard';
-import PrivateRoute from './components/PrivateRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Login />} />
 
-      <Route path="/admin" element={<PrivateRoute><Dashboard /></PrivateRoute>}>
+      
+
+      <Route path="/admin">
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="hardware" element={<Hardware />} />
         <Route path="software" element={<Software />} />
         <Route path="request" element={<Request />} />
       </Route>
 
-      <Route path="/superadmin" element={<PrivateRoute><SuperDashboard /></PrivateRoute>}>
+      <Route path="/superadmin">
         <Route path="employee" element={<Employee />} />
         <Route path="hardware" element={<SuperHardware />} />
         <Route path="software" element={<SuperSoftware />} />
@@ -43,7 +44,7 @@ const router = createBrowserRouter(
         <Route path="dashboard" element={<SuperDashboard />} />
       </Route>
 
-      <Route path="/user" element={<PrivateRoute><UserRequest /></PrivateRoute>}>
+      <Route path="/user">
         <Route path="request" element={<UserRequest />} />
       </Route>
     </Route>
