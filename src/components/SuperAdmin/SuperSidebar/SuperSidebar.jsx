@@ -57,7 +57,7 @@ const SuperSidebar = () => {
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <AddBoxIcon />
-          <span>Create Request</span>
+          <span>Asset Allocation</span>
         </Link>
         {/* <Link
           to="/superadmin/role"
