@@ -7,7 +7,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AssignRole = () => {
-  const [roles] = useState([{ value: 'admin', label: 'Admin' }]);
+const [roles] = useState([
+  { value: 'admin', label: 'Admin' },
+  { value: 'user', label: 'User' }
+]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);

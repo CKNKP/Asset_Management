@@ -54,7 +54,7 @@ const Software = () => {
       key: "softwareExpiryDate",
     },
     {
-      title: "Software Installation Date",
+      title: "Software Purchase Date",
       dataIndex: "softwareInstallationDate",
       key: "softwareInstallationDate",
     },
@@ -214,6 +214,24 @@ const Software = () => {
 
                 <div>
                   <label
+                    htmlFor="softwareInstallationDate"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Software Purchase Date
+                  </label>
+                  <input
+                    id="softwareInstallationDate"
+                    name="softwareInstallationDate"
+                    type="date"
+                    value={softwareData.softwareInstallationDate}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label
                     htmlFor="softwareExpiryDate"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
@@ -230,23 +248,7 @@ const Software = () => {
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="softwareInstallationDate"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Software Installation Date
-                  </label>
-                  <input
-                    id="softwareInstallationDate"
-                    name="softwareInstallationDate"
-                    type="date"
-                    value={softwareData.softwareInstallationDate}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
+              
 
                 <div>
                   <label
