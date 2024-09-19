@@ -57,15 +57,15 @@ const SuperSidebar = () => {
           className=" px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <AddBoxIcon />
-          <span>Create Request</span>
+          <span>Asset Allocation</span>
         </Link>
-        <Link
+        {/* <Link
           to="/superadmin/role"
           className="px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"
         >
           <AddCircleOutlineIcon />
           <span>Add Role</span>
-        </Link>
+        </Link> */}
         <Link
           to="/superadmin/assign-role"
           className="px-3 py-2 rounded-md text-base font-medium text-white bg-gray-700 hover:bg-gray-600 flex items-center space-x-2"

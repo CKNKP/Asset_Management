@@ -52,7 +52,7 @@ const Software = () => {
       key: "softwareExpiryDate",
     },
     {
-      title: "Software Installation Date",
+      title: "Software Purchase Date",
       dataIndex: "softwareInstallationDate",
       key: "softwareInstallationDate",
     },
@@ -214,7 +214,9 @@ const Software = () => {
                     htmlFor="softwareInstallationDate"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Purchased On
+
+                    Software Purchase Date
+
                   </label>
                   <input
                     id="softwareInstallationDate"
@@ -231,7 +233,9 @@ const Software = () => {
                     htmlFor="softwareExpiryDate"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Expiry Date
+
+                    Software Expiry Date
+
                   </label>
                   <input
                     id="softwareExpiryDate"
@@ -243,9 +247,6 @@ const Software = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-
-               
-
                 <div>
                   <label
                     htmlFor="version"

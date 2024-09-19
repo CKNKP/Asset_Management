@@ -5,6 +5,9 @@ import Select from 'react-select';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Table, Typography, Descriptions } from 'antd';
+
+const { Text } = Typography;
 
 function SuperRequest() {
   const [view, setView] = useState(true);
@@ -23,15 +26,20 @@ function SuperRequest() {
     assignTo: "",
     machineSerialNo: "",
     softwareRQ: [],
+    requisitionNumber: ""
   });
   const [loading, setLoading] = useState(false);
+  const [allocations, setAllocations] = useState([]);
 
   const employee = sessionStorage.getItem('employeeId');
 
   useEffect(() => {
     fetchEmployeeIds();
     fetchMachineSerialNumbers();
-  }, []);
+    if (!view) {
+      fetchAllocations();
+    }
+  }, [view]);
 
   const fetchEmployeeIds = async () => {
     try {
@@ -74,6 +82,16 @@ function SuperRequest() {
       setHardwareDetails(response.data);
     } catch (error) {
       console.error('Error fetching hardware details:', error);
+    }
+  };
+
+  const fetchAllocations = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/allocation/getAll');
+      setAllocations(response.data);
+    } catch (error) {
+      console.error('Error fetching allocations:', error);
+      toast.error("Failed to fetch allocations.");
     }
   };
 
@@ -142,6 +160,112 @@ function SuperRequest() {
     setView(!view);
   };
 
+  const AllocationTable = ({ allocations }) => {
+    const columns = [
+      {
+        title: 'IMAC No',
+        dataIndex: 'imacNo',
+        key: 'imacNo',
+      },
+      {
+        title: 'Employee',
+        dataIndex: ['employee', 'employeeName'],
+        key: 'employeeName',
+        render: (text, record) => (
+          <span>
+            {text} ({record.employee.employeeId})
+          </span>
+        ),
+      },
+      {
+        title: 'Device',
+        dataIndex: 'deviceName',
+        key: 'deviceName',
+        render: (text, record) => (
+          <span>
+            {text} ({record.assetCode})
+          </span>
+        ),
+      },
+      {
+        title: 'Division',
+        dataIndex: 'division',
+        key: 'division',
+      },
+      {
+        title: 'Assigned By',
+        dataIndex: 'assignedBy',
+        key: 'assignedBy',
+      },
+      {
+        title: 'Assigned From',
+        dataIndex: 'assignedFrom',
+        key: 'assignedFrom',
+      },
+      {
+        title: 'Help Desk No',
+        dataIndex: 'helpDeskNo',
+        key: 'helpDeskNo',
+      },
+    ];
+  
+    const expandedRowRender = (record) => {
+      return (
+        <Descriptions bordered column={2}>
+          <Descriptions.Item label="Employee Details" span={2}>
+            <Descriptions size="small" layout="vertical" bordered>
+              <Descriptions.Item label="Email">{record.employee.employeeEmail}</Descriptions.Item>
+              <Descriptions.Item label="Department">{record.employee.employeeDepartment}</Descriptions.Item>
+              <Descriptions.Item label="Grade">{record.employee.employeeGrade}</Descriptions.Item>
+              <Descriptions.Item label="Location">{record.employee.employeeLocation}</Descriptions.Item>
+              <Descriptions.Item label="Designation">{record.employee.employeeDesignation}</Descriptions.Item>
+              <Descriptions.Item label="Date of Joining">{record.employee.dateOfJoining}</Descriptions.Item>
+              <Descriptions.Item label="Reporting Manager">{record.employee.reportingManager}</Descriptions.Item>
+              <Descriptions.Item label="Manager Email">{record.employee.reportingManagerEmailId}</Descriptions.Item>
+              <Descriptions.Item label="Status">{record.employee.employeeStatus}</Descriptions.Item>
+            </Descriptions>
+          </Descriptions.Item>
+          <Descriptions.Item label="Hardware Details" span={2}>
+            <Descriptions size="small" layout="vertical" bordered>
+              <Descriptions.Item label="Machine Serial No">{record.hardware.machineSerialNo}</Descriptions.Item>
+              <Descriptions.Item label="Processor Type">{record.hardware.processorType}</Descriptions.Item>
+              <Descriptions.Item label="Hardware Type">{record.hardware.hardWareType}</Descriptions.Item>
+              <Descriptions.Item label="Hard Disk">{record.hardware.harddisk}</Descriptions.Item>
+              <Descriptions.Item label="PC Model">{record.hardware.pcModel}</Descriptions.Item>
+              <Descriptions.Item label="RAM">{record.hardware.ram}</Descriptions.Item>
+              <Descriptions.Item label="Make Type">{record.hardware.makeType}</Descriptions.Item>
+              <Descriptions.Item label="Monitor Model">{record.hardware.monitorModel}</Descriptions.Item>
+              <Descriptions.Item label="Help Desk Case ID">{record.hardware.helpDeskCaseId}</Descriptions.Item>
+              <Descriptions.Item label="Invoice No">{record.hardware.invoiceNo}</Descriptions.Item>
+              <Descriptions.Item label="Vendor Name">{record.hardware.vendorName}</Descriptions.Item>
+              <Descriptions.Item label="Asset Status">{record.hardware.assetStatus}</Descriptions.Item>
+              <Descriptions.Item label="Purchased On">{record.hardware.purchasedOn}</Descriptions.Item>
+              <Descriptions.Item label="Warranty Expiration">{record.hardware.warrantyExpirationDate}</Descriptions.Item>
+              <Descriptions.Item label="Warranty Status">{record.hardware.warrantyExpirationStatus}</Descriptions.Item>
+              <Descriptions.Item label="Asset Category">{record.hardware.assetCategory}</Descriptions.Item>
+            </Descriptions>
+          </Descriptions.Item>
+          <Descriptions.Item label="IMAC Requirements">{record.imacRequirements}</Descriptions.Item>
+          <Descriptions.Item label="Software ID">{record.softwareId}</Descriptions.Item>
+          <Descriptions.Item label="Assigned To">{record.assignTo}</Descriptions.Item>
+          <Descriptions.Item label="Assigned Up To">{record.assignedUpto || 'N/A'}</Descriptions.Item>
+        </Descriptions>
+      );
+    };
+  
+    return (
+      <Table 
+        columns={columns} 
+        dataSource={allocations} 
+        rowKey="imacNo" 
+        expandable={{
+          expandedRowRender,
+          rowExpandable: record => true,
+        }}
+      />
+    );
+  };
+
   return (
     <>
       <Header />
@@ -150,20 +274,24 @@ function SuperRequest() {
         <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 mt-14">
           <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="bg-gray-800 text-white py-4 px-6 flex justify-between gap-5">
-              <h2 className="text-2xl font-semibold">Create Request</h2>
+              <h2 className="text-2xl font-semibold">
+                {view ? "Asset Allocation" : "Allocation Information"}
+              </h2>
               <button
                 onClick={toggleView}
                 className="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition duration-150 ease-in-out"
               >
-                View
+                {view ? "View" : "Add"}
               </button>
             </div>
-            <div className="bg-gray-700 text-white justify-center flex py-2 px-3 mt-3">
-              <h2 className="text-1xl font-semibold">
-                IMAC Requisition Form
-              </h2>
-            </div>
-            <form onSubmit={handleSubmit}>
+            {view ? (
+              <>
+                <div className="bg-gray-700 text-white justify-center flex py-2 px-3 mt-3">
+                  <h2 className="text-1xl font-semibold">
+                    IMAC Requisition Form
+                  </h2>
+                </div>
+                <form onSubmit={handleSubmit}>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   <div>
@@ -464,6 +592,19 @@ function SuperRequest() {
                       onChange={handleSoftwareChange}
                     />
                   </div>
+                  <div>
+                    <label htmlFor="requisitionNumber" className="block text-sm font-medium text-gray-700">Requisition Number</label>
+                    <input
+                      id="requisitionNumber"
+                      name="requisitionNumber"
+                      type="text"
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter requisition number"
+                      value={formData.requisitionNumber}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="flex items-center justify-end p-4">
@@ -476,6 +617,12 @@ function SuperRequest() {
                 </button>
               </div>
             </form>
+              </>
+            ) : (
+              <div className="p-6">
+                <AllocationTable allocations={allocations} />
+              </div>
+            )}
           </div>
         </div>
       </div>

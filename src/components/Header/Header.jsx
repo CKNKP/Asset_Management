@@ -16,12 +16,15 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Clear sessionStorage and handle logout logic
     sessionStorage.clear();
-    // Redirect to login or logout logic here
-    window.location.href = '/login';
+    window.location.href = "/";
+    if (window.history && window.history.pushState) {
+      window.history.replaceState(null, null, "/");
+      window.history.pushState(null, null, "/");
+      window.onpopstate = () => window.history.go(1);
+    }
   };
-
+  
   return (
     <header style={headerStyle}>
       <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Asset Management</h1>
