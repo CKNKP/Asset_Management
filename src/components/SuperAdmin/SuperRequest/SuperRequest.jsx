@@ -5,7 +5,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Table, Descriptions, Button, message } from 'antd';
+import { Table, Descriptions, Button} from 'antd';
 
 
 
@@ -14,14 +14,14 @@ const AllocationTable = ({ allocations, onDeallocation }) => {
     try {
       const response = await axios.post(`http://localhost:8080/api/v1/allocation/deallocate?imacNo=${imacNo}`);
       if (response.data === "Asset deallocated successfully") {
-        message.success("Asset deallocated successfully");
+        toast.success("Asset deallocated successfully");
         onDeallocation(imacNo);
       } else {
-        message.error("Failed to deallocate asset");
+        toast.error("Failed to deallocate asset");
       }
     } catch (error) {
       console.error('Error deallocating asset:', error);
-      message.error("Error deallocating asset");
+      toast.error("Error deallocating asset");
     }
   };
 
