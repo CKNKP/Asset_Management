@@ -1,13 +1,147 @@
-import { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import Header from "../../Header/Header";
 import SuperSidebar from "../SuperSidebar/SuperSidebar";
 import Select from 'react-select';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Table, Typography, Descriptions } from 'antd';
+import { Table, Descriptions, Button, message } from 'antd';
 
-const { Text } = Typography;
+
+
+const AllocationTable = ({ allocations, onDeallocation }) => {
+  const handleDeallocation = async (imacNo) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/api/v1/allocation/deallocate?imacNo=${imacNo}`);
+      if (response.data === "Asset deallocated successfully") {
+        message.success("Asset deallocated successfully");
+        onDeallocation(imacNo);
+      } else {
+        message.error("Failed to deallocate asset");
+      }
+    } catch (error) {
+      console.error('Error deallocating asset:', error);
+      message.error("Error deallocating asset");
+    }
+  };
+
+  const columns = [
+    {
+      title: 'IMAC No',
+      dataIndex: 'imacNo',
+      key: 'imacNo',
+    },
+    {
+      title: 'Employee',
+      dataIndex: ['employee', 'employeeName'],
+      key: 'employeeName',
+      render: (text, record) => (
+        <span>
+          {text} ({record.employee.employeeId})
+        </span>
+      ),
+    },
+    {
+      title: 'Device',
+      dataIndex: 'deviceName',
+      key: 'deviceName',
+      render: (text, record) => (
+        <span>
+          {text} ({record.assetCode})
+        </span>
+      ),
+    },
+    {
+      title: 'Division',
+      dataIndex: 'division',
+      key: 'division',
+    },
+    {
+      title: 'Assigned By',
+      dataIndex: 'assignedBy',
+      key: 'assignedBy',
+    },
+    {
+      title: 'Assigned From',
+      dataIndex: 'assignedFrom',
+      key: 'assignedFrom',
+    },
+    {
+      title: 'Help Desk No',
+      dataIndex: 'helpDeskNo',
+      key: 'helpDeskNo',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Button 
+          onClick={() => handleDeallocation(record.imacNo)}
+          type="primary" 
+          danger
+        >
+          Deallocate
+        </Button>
+      ),
+    },
+  ];
+
+  const expandedRowRender = (record) => {
+    return (
+      <Descriptions bordered column={2}>
+        <Descriptions.Item label="Employee Details" span={2}>
+          <Descriptions size="small" layout="vertical" bordered>
+            <Descriptions.Item label="Email">{record.employee.employeeEmail}</Descriptions.Item>
+            <Descriptions.Item label="Department">{record.employee.employeeDepartment}</Descriptions.Item>
+            <Descriptions.Item label="Grade">{record.employee.employeeGrade}</Descriptions.Item>
+            <Descriptions.Item label="Location">{record.employee.employeeLocation}</Descriptions.Item>
+            <Descriptions.Item label="Designation">{record.employee.employeeDesignation}</Descriptions.Item>
+            <Descriptions.Item label="Date of Joining">{record.employee.dateOfJoining}</Descriptions.Item>
+            <Descriptions.Item label="Reporting Manager">{record.employee.reportingManager}</Descriptions.Item>
+            <Descriptions.Item label="Manager Email">{record.employee.reportingManagerEmailId}</Descriptions.Item>
+            <Descriptions.Item label="Status">{record.employee.employeeStatus}</Descriptions.Item>
+          </Descriptions>
+        </Descriptions.Item>
+        <Descriptions.Item label="Hardware Details" span={2}>
+          <Descriptions size="small" layout="vertical" bordered>
+            <Descriptions.Item label="Machine Serial No">{record.hardware.machineSerialNo}</Descriptions.Item>
+            <Descriptions.Item label="Processor Type">{record.hardware.processorType}</Descriptions.Item>
+            <Descriptions.Item label="Hardware Type">{record.hardware.hardWareType}</Descriptions.Item>
+            <Descriptions.Item label="Hard Disk">{record.hardware.harddisk}</Descriptions.Item>
+            <Descriptions.Item label="PC Model">{record.hardware.pcModel}</Descriptions.Item>
+            <Descriptions.Item label="RAM">{record.hardware.ram}</Descriptions.Item>
+            <Descriptions.Item label="Make Type">{record.hardware.makeType}</Descriptions.Item>
+            <Descriptions.Item label="Monitor Model">{record.hardware.monitorModel}</Descriptions.Item>
+            <Descriptions.Item label="Help Desk Case ID">{record.hardware.helpDeskCaseId}</Descriptions.Item>
+            <Descriptions.Item label="Invoice No">{record.hardware.invoiceNo}</Descriptions.Item>
+            <Descriptions.Item label="Vendor Name">{record.hardware.vendorName}</Descriptions.Item>
+            <Descriptions.Item label="Asset Status">{record.hardware.assetStatus}</Descriptions.Item>
+            <Descriptions.Item label="Purchased On">{record.hardware.purchasedOn}</Descriptions.Item>
+            <Descriptions.Item label="Warranty Expiration">{record.hardware.warrantyExpirationDate}</Descriptions.Item>
+            <Descriptions.Item label="Warranty Status">{record.hardware.warrantyExpirationStatus}</Descriptions.Item>
+            <Descriptions.Item label="Asset Category">{record.hardware.assetCategory}</Descriptions.Item>
+          </Descriptions>
+        </Descriptions.Item>
+        <Descriptions.Item label="IMAC Requirements">{record.imacRequirements}</Descriptions.Item>
+        <Descriptions.Item label="Software ID">{record.softwareId}</Descriptions.Item>
+        <Descriptions.Item label="Assigned To">{record.assignTo}</Descriptions.Item>
+        <Descriptions.Item label="Assigned Up To">{record.assignedUpto || 'N/A'}</Descriptions.Item>
+      </Descriptions>
+    );
+  };
+
+  return (
+    <Table 
+      columns={columns} 
+      dataSource={allocations} 
+      rowKey="imacNo" 
+      expandable={{
+        expandedRowRender,
+        rowExpandable: record => true,
+      }}
+    />
+  );
+};
 
 function SuperRequest() {
   const [view, setView] = useState(true);
@@ -160,111 +294,10 @@ function SuperRequest() {
     setView(!view);
   };
 
-  const AllocationTable = ({ allocations }) => {
-    const columns = [
-      {
-        title: 'IMAC No',
-        dataIndex: 'imacNo',
-        key: 'imacNo',
-      },
-      {
-        title: 'Employee',
-        dataIndex: ['employee', 'employeeName'],
-        key: 'employeeName',
-        render: (text, record) => (
-          <span>
-            {text} ({record.employee.employeeId})
-          </span>
-        ),
-      },
-      {
-        title: 'Device',
-        dataIndex: 'deviceName',
-        key: 'deviceName',
-        render: (text, record) => (
-          <span>
-            {text} ({record.assetCode})
-          </span>
-        ),
-      },
-      {
-        title: 'Division',
-        dataIndex: 'division',
-        key: 'division',
-      },
-      {
-        title: 'Assigned By',
-        dataIndex: 'assignedBy',
-        key: 'assignedBy',
-      },
-      {
-        title: 'Assigned From',
-        dataIndex: 'assignedFrom',
-        key: 'assignedFrom',
-      },
-      {
-        title: 'Help Desk No',
-        dataIndex: 'helpDeskNo',
-        key: 'helpDeskNo',
-      },
-    ];
-  
-    const expandedRowRender = (record) => {
-      return (
-        <Descriptions bordered column={2}>
-          <Descriptions.Item label="Employee Details" span={2}>
-            <Descriptions size="small" layout="vertical" bordered>
-              <Descriptions.Item label="Email">{record.employee.employeeEmail}</Descriptions.Item>
-              <Descriptions.Item label="Department">{record.employee.employeeDepartment}</Descriptions.Item>
-              <Descriptions.Item label="Grade">{record.employee.employeeGrade}</Descriptions.Item>
-              <Descriptions.Item label="Location">{record.employee.employeeLocation}</Descriptions.Item>
-              <Descriptions.Item label="Designation">{record.employee.employeeDesignation}</Descriptions.Item>
-              <Descriptions.Item label="Date of Joining">{record.employee.dateOfJoining}</Descriptions.Item>
-              <Descriptions.Item label="Reporting Manager">{record.employee.reportingManager}</Descriptions.Item>
-              <Descriptions.Item label="Manager Email">{record.employee.reportingManagerEmailId}</Descriptions.Item>
-              <Descriptions.Item label="Status">{record.employee.employeeStatus}</Descriptions.Item>
-            </Descriptions>
-          </Descriptions.Item>
-          <Descriptions.Item label="Hardware Details" span={2}>
-            <Descriptions size="small" layout="vertical" bordered>
-              <Descriptions.Item label="Machine Serial No">{record.hardware.machineSerialNo}</Descriptions.Item>
-              <Descriptions.Item label="Processor Type">{record.hardware.processorType}</Descriptions.Item>
-              <Descriptions.Item label="Hardware Type">{record.hardware.hardWareType}</Descriptions.Item>
-              <Descriptions.Item label="Hard Disk">{record.hardware.harddisk}</Descriptions.Item>
-              <Descriptions.Item label="PC Model">{record.hardware.pcModel}</Descriptions.Item>
-              <Descriptions.Item label="RAM">{record.hardware.ram}</Descriptions.Item>
-              <Descriptions.Item label="Make Type">{record.hardware.makeType}</Descriptions.Item>
-              <Descriptions.Item label="Monitor Model">{record.hardware.monitorModel}</Descriptions.Item>
-              <Descriptions.Item label="Help Desk Case ID">{record.hardware.helpDeskCaseId}</Descriptions.Item>
-              <Descriptions.Item label="Invoice No">{record.hardware.invoiceNo}</Descriptions.Item>
-              <Descriptions.Item label="Vendor Name">{record.hardware.vendorName}</Descriptions.Item>
-              <Descriptions.Item label="Asset Status">{record.hardware.assetStatus}</Descriptions.Item>
-              <Descriptions.Item label="Purchased On">{record.hardware.purchasedOn}</Descriptions.Item>
-              <Descriptions.Item label="Warranty Expiration">{record.hardware.warrantyExpirationDate}</Descriptions.Item>
-              <Descriptions.Item label="Warranty Status">{record.hardware.warrantyExpirationStatus}</Descriptions.Item>
-              <Descriptions.Item label="Asset Category">{record.hardware.assetCategory}</Descriptions.Item>
-            </Descriptions>
-          </Descriptions.Item>
-          <Descriptions.Item label="IMAC Requirements">{record.imacRequirements}</Descriptions.Item>
-          <Descriptions.Item label="Software ID">{record.softwareId}</Descriptions.Item>
-          <Descriptions.Item label="Assigned To">{record.assignTo}</Descriptions.Item>
-          <Descriptions.Item label="Assigned Up To">{record.assignedUpto || 'N/A'}</Descriptions.Item>
-        </Descriptions>
-      );
-    };
-  
-    return (
-      <Table 
-        columns={columns} 
-        dataSource={allocations} 
-        rowKey="imacNo" 
-        expandable={{
-          expandedRowRender,
-          rowExpandable: record => true,
-        }}
-      />
-    );
+  const handleDeallocation = (imacNo) => {
+    setAllocations(prevAllocations => prevAllocations.filter(allocation => allocation.imacNo !== imacNo));
   };
+
 
   return (
     <>
@@ -620,8 +653,8 @@ function SuperRequest() {
               </>
             ) : (
               <div className="p-6">
-                <AllocationTable allocations={allocations} />
-              </div>
+                 <AllocationTable allocations={allocations} onDeallocation={handleDeallocation} />
+                 </div>
             )}
           </div>
         </div>
